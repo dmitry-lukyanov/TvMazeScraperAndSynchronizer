@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TvMazeScraper.Models\TvMazeScraper.Models.csproj" />
+    <ProjectReference Include="..\TvMazeScrapper.Synchronizer.Dal\TvMazeScraper.Synchronizer.Dal.csproj" />
+  </ItemGroup>
+
+</Project>

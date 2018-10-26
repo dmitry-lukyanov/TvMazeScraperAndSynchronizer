@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TvMazeApi.Proxy\TvMazeApi.Proxy.csproj" />
+    <ProjectReference Include="..\TvMazeScraper.Synchronizer.Services\TvMazeScraper.Synchronizer.Services.csproj" />
+    <ProjectReference Include="..\TvMazeScrapper.Synchronizer.Dal\TvMazeScraper.Synchronizer.Dal.csproj" />
+  </ItemGroup>
+
+</Project>

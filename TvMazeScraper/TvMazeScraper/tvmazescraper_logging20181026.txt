@@ -1,0 +1,32 @@
+2018-10-26 12:26:13.415 +03:00 [INF] User profile is available. Using 'C:\Users\Dmitry_Lukyanov\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2018-10-26 12:26:17.608 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/swagger/index.html  
+2018-10-26 12:26:17.724 +03:00 [WRN] Failed to determine the https port for redirect.
+2018-10-26 12:26:20.227 +03:00 [INF] Request finished in 2633.3074ms 200 text/html
+2018-10-26 12:26:20.264 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/swagger/swagger-ui.css  
+2018-10-26 12:26:20.503 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2018-10-26 12:26:20.518 +03:00 [INF] Request finished in 256.342ms 200 text/css
+2018-10-26 12:26:22.283 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/swagger/favicon-32x32.png  
+2018-10-26 12:26:22.372 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/swagger/v1/swagger.json  
+2018-10-26 12:26:22.402 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2018-10-26 12:26:22.405 +03:00 [INF] Request finished in 121.0926ms 200 image/png
+2018-10-26 12:26:23.160 +03:00 [INF] Request finished in 783.397ms 200 application/json;charset=utf-8
+2018-10-26 12:26:39.181 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/api/Cast?page=1&pageSize=10  
+2018-10-26 12:26:39.309 +03:00 [INF] Route matched with {action = "Get", controller = "Cast"}. Executing action TvMazeScraper.Controllers.CastController.Get (TvMazeScraper)
+2018-10-26 12:26:40.225 +03:00 [INF] Executing action method TvMazeScraper.Controllers.CastController.Get (TvMazeScraper) with arguments (["","","1","10"]) - Validation state: "Valid"
+2018-10-26 12:26:45.245 +03:00 [INF] Executed action method TvMazeScraper.Controllers.CastController.Get (TvMazeScraper), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 5006.4549000000006ms.
+2018-10-26 12:26:45.275 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TvMazeScraper.Models.Cast, TvMazeScraper.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2018-10-26 12:26:45.329 +03:00 [INF] Executed action TvMazeScraper.Controllers.CastController.Get (TvMazeScraper) in 6012.7142ms
+2018-10-26 12:26:45.335 +03:00 [INF] Request finished in 6154.4937ms 200 application/json; charset=utf-8
+2018-10-26 12:26:57.386 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/api/Show?page=1&pageSize=50  
+2018-10-26 12:26:57.394 +03:00 [INF] Route matched with {action = "Get", controller = "Show"}. Executing action TvMazeScraper.Controllers.ShowController.Get (TvMazeScraper)
+2018-10-26 12:26:57.398 +03:00 [INF] Executing action method TvMazeScraper.Controllers.ShowController.Get (TvMazeScraper) with arguments (["","1","50"]) - Validation state: "Valid"
+2018-10-26 12:26:57.991 +03:00 [INF] Executed action method TvMazeScraper.Controllers.ShowController.Get (TvMazeScraper), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 590.8126ms.
+2018-10-26 12:26:57.996 +03:00 [INF] Executing ObjectResult, writing value of type 'System.Collections.Generic.List`1[[TvMazeScraper.Models.Show, TvMazeScraper.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2018-10-26 12:26:58.008 +03:00 [INF] Executed action TvMazeScraper.Controllers.ShowController.Get (TvMazeScraper) in 610.676ms
+2018-10-26 12:26:58.015 +03:00 [INF] Request finished in 626.8085ms 200 application/json; charset=utf-8
+2018-10-26 12:27:14.120 +03:00 [INF] User profile is available. Using 'C:\Users\Dmitry_Lukyanov\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2018-10-26 12:27:15.381 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/swagger/index.html  
+2018-10-26 12:27:15.445 +03:00 [WRN] Failed to determine the https port for redirect.
+2018-10-26 12:27:15.672 +03:00 [INF] Request finished in 297.2844ms 200 text/html
+2018-10-26 12:27:16.166 +03:00 [INF] Request starting HTTP/1.1 GET http://localhost:1787/swagger/v1/swagger.json  
+2018-10-26 12:27:16.316 +03:00 [INF] Request finished in 146.7279ms 200 application/json;charset=utf-8
