@@ -31,7 +31,6 @@ namespace TvMazeScraper.Controllers
         /// <param name="query">Show name query</param>
         /// <param name="page">Page number</param>
         /// <param name="pageSize">Page size</param>
-        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

@@ -12,11 +12,10 @@ namespace TvMazeScraper.Dal.ContainerModule
         {
             base.Load(builder);
 
-            builder.RegisterAssemblyTypes(typeof(DalModule).Assembly)
-                .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(DalModule).Assembly).AsImplementedInterfaces();
 
+            builder.RegisterType<TvMazeScraperContext>().As<DbContext>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterType<DalProfile>().As<Profile>();
-            builder.RegisterType<TvMazeScraperContext>().As<DbContext>().AsSelf().SingleInstance();
         }
     }
 }

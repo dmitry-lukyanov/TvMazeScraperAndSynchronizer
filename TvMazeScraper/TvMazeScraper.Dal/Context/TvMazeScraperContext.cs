@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TvMazeScraper.Dal.Dto;
 
@@ -23,6 +24,10 @@ namespace TvMazeScraper.Dal.Context
             base.OnConfiguring(optionsBuilder);
 
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                throw new ArgumentException("DefaultConnection");
+            }
             optionsBuilder.UseSqlServer(connectionString);
         }
 

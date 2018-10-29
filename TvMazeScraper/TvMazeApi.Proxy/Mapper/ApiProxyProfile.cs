@@ -10,7 +10,7 @@ namespace TvMazeApi.Proxy.Mapper
         public ApiProxyProfile()
         {
             CreateMap<ShowDto, Show>()
-                .ForMember(c=>c.Cast, y=>y.Ignore())
+                .ForMember(c => c.Cast, y => y.Ignore())
                 .AfterMap((s, d, context) =>
                 {
                     var persons = s?.Embedded?.Cast?.Select(c => c.Person)?.ToList();

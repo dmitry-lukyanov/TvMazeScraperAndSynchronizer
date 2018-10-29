@@ -23,8 +23,6 @@ namespace TvMazeScraper.Api.Synchronizer.Controllers
         /// <summary>
         /// Show data from TvMaze api
         /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -48,8 +46,6 @@ namespace TvMazeScraper.Api.Synchronizer.Controllers
         /// <summary>
         /// Show data updates from TvMaze api
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
         [HttpGet("Updates")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]

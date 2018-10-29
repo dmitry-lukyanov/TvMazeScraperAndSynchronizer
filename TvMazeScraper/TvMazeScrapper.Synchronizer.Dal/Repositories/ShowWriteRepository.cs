@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TvMazeScraper.Models;
 using TvMazeScraper.Synchronizer.Dal.Context;
@@ -12,13 +13,15 @@ namespace TvMazeScraper.Synchronizer.Dal.Repositories
     public class ShowWriteRepository : IShowWriteRepository
     {
         private readonly TvMazeScraperContext _context;
+        private readonly IMapper _mapper;
 
         private const int UpdatedStatus = 0;
         private const int CreatedStatus = 1;
 
-        public ShowWriteRepository(TvMazeScraperContext context)
+        public ShowWriteRepository(TvMazeScraperContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         private async Task<int> AddOrUpdateWithoutSaveAsync(Show show)
@@ -31,9 +34,7 @@ namespace TvMazeScraper.Synchronizer.Dal.Repositories
                 showDto = new ShowDto();
                 await _context.Shows.AddAsync(showDto);
             }
-
-            showDto.Id = show.Id;
-            showDto.Name = show.Name;
+            _mapper.Map(show, showDto);
 
             var toDelete = new List<CastDto>();
             //remove deleted cast
@@ -50,21 +51,17 @@ namespace TvMazeScraper.Synchronizer.Dal.Repositories
             }
 
             //update or add details
-            show.Cast?.ToList().ForEach(castDto =>
+            show.Cast?.ToList().ForEach(cast =>
             {
                 if (showDto.Cast == null) showDto.Cast = new List<CastDto>();
 
-                var cast = showDto.Cast.FirstOrDefault(d => d.Id == castDto.Id);
-                if (cast == null)
+                var castDto = showDto.Cast.FirstOrDefault(d => d.Id == cast.Id);
+                if (castDto == null)
                 {
-                    cast = new CastDto();
-                    showDto.Cast.Add(cast);
+                    castDto = new CastDto();
+                    showDto.Cast.Add(castDto);
                 }
-                cast.Id = castDto.Id;
-                cast.Name = castDto.Name;
-                cast.Birthday = castDto.Birthday;
-                cast.Name = castDto.Name;
-                cast.ShowId = castDto.ShowId;
+                _mapper.Map(cast, castDto);
             });
 
             return result;

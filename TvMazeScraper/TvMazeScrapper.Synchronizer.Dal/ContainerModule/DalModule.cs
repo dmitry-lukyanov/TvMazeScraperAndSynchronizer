@@ -1,6 +1,8 @@
 ﻿using Autofac;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TvMazeScraper.Synchronizer.Dal.Context;
+using TvMazeScraper.Synchronizer.Dal.Mapper;
 
 namespace TvMazeScraper.Synchronizer.Dal.ContainerModule
 {
@@ -10,10 +12,10 @@ namespace TvMazeScraper.Synchronizer.Dal.ContainerModule
         {
             base.Load(builder);
 
-            builder.RegisterAssemblyTypes(typeof(DalModule).Assembly)
-                .AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(typeof(DalModule).Assembly).AsImplementedInterfaces();
 
-            builder.RegisterType<TvMazeScraperContext>().As<DbContext>().AsSelf().SingleInstance();
+            builder.RegisterType<TvMazeScraperContext>().As<DbContext>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<DalProfile>().As<Profile>();
         }
     }
 }

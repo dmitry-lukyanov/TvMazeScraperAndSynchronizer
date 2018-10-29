@@ -26,7 +26,6 @@ namespace TvMazeScraper.Controllers
         /// <summary>
         /// Cast data from TvMaze scraper by  show id
         /// </summary>
-        /// <returns></returns>
         [HttpGet("show/{showId}")]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
@@ -59,7 +58,6 @@ namespace TvMazeScraper.Controllers
         /// <summary>
         /// Cast data from TvMaze scraper by  show id
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
