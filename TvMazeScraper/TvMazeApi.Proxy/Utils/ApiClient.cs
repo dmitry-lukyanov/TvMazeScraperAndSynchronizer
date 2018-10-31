@@ -3,9 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
+using TvMazeApi.Proxy.Extensions;
 using TvMazeApi.Proxy.Utils.Interfaces;
 
 namespace TvMazeApi.Proxy.Utils
@@ -13,11 +11,11 @@ namespace TvMazeApi.Proxy.Utils
     public class ApiClient : IApiClient
     {
         private Uri BaseEndpoint { get; }
-        private readonly IHttpHandler _httpHandler;
         private readonly IThreadUtil _threadUtil;
         private readonly IProxySettingsProvider _proxySettingsProvider;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public ApiClient(IProxySettingsProvider settingsProvider, IHttpHandler httpHandler, IThreadUtil threadUtil, IProxySettingsProvider proxySettingsProvider)
+        public ApiClient(IProxySettingsProvider settingsProvider, IHttpClientFactory httpClientFactory, IThreadUtil threadUtil, IProxySettingsProvider proxySettingsProvider)
         {
             if (settingsProvider == null)
             {
@@ -30,7 +28,7 @@ namespace TvMazeApi.Proxy.Utils
             }
 
             BaseEndpoint = new Uri(settingsProvider.ApiUrl);
-            _httpHandler = httpHandler;
+            _httpClientFactory = httpClientFactory;
             _threadUtil = threadUtil;
             _proxySettingsProvider = proxySettingsProvider;
         }
@@ -48,7 +46,7 @@ namespace TvMazeApi.Proxy.Utils
             int attempt = 0;
             do
             {
-                response = await _httpHandler.GetAsync(fullUrl, HttpCompletionOption.ResponseHeadersRead);
+                response = await _httpClientFactory.CreateClient(BaseEndpoint).GetAsync(fullUrl, HttpCompletionOption.ResponseHeadersRead);
                 isTryOnceAgain = response.StatusCode == HttpStatusCode.TooManyRequests;
                 if (isTryOnceAgain) await _threadUtil.DelayAsync(tooManayRequestsDelay);
                 attempt++;
@@ -57,7 +55,7 @@ namespace TvMazeApi.Proxy.Utils
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                return ParseTo<T>(data);
+                return data.ParseTo<T>();
             }
             else if (allowedUnsuccessCodes != null && allowedUnsuccessCodes.Contains(response.StatusCode))
             {
@@ -69,17 +67,5 @@ namespace TvMazeApi.Proxy.Utils
                 return default(T);
             }
         }
-
-        private static T ParseTo<T>(string originalMessage)
-        {
-            var token = JToken.Parse(originalMessage);
-            return token.ToObject<T>(JsonSerializer.Create(SerializationSettings));
-        }
-
-        private static JsonSerializerSettings SerializationSettings => new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-        };
     }
 }

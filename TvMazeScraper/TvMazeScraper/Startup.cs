@@ -29,7 +29,7 @@ namespace TvMazeScraper
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.ConfigureLogging();
-
+            services.AddHttpClient();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Tv Maze Scraper", Version = "v1" });

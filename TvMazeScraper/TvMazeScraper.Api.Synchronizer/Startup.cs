@@ -30,6 +30,7 @@ namespace TvMazeScraper.Api.Synchronizer
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddHttpClient();
             services.ConfigureLogging();
             services.AddHostedService<FullSynchronizeScraperHostService>();
             services.AddHostedService<LastUpdatesSynchronizeScraperHostService>();

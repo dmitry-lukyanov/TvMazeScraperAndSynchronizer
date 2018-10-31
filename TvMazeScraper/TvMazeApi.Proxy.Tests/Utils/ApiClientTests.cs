@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using TvMazeApi.Proxy.Tests.Common;
 using TvMazeApi.Proxy.Utils;
 using TvMazeApi.Proxy.Utils.Interfaces;
 
@@ -14,7 +16,7 @@ namespace TvMazeApi.Proxy.Tests.Utils
     [TestFixture]
     public class ApiClientTests
     {
-        #region private classes
+        #region private classes       
         public class TestData
         {
             public TestData(string value) => TestValue = value;
@@ -68,7 +70,7 @@ namespace TvMazeApi.Proxy.Tests.Utils
         private HttpResponseMessage _tooManyRequestsHttpResponse = null;
         private HttpResponseMessage _badGatewayHttpResponse = null;
 
-        private Mock<IHttpHandler> _httpHandlerMock;
+        private Mock<IHttpClientFactory> _httpClientFactory;
         private Mock<IProxySettingsProvider> _proxySettingsProviderMock;
         private Mock<IThreadUtil> _threadUtilMock;
 
@@ -93,8 +95,8 @@ namespace TvMazeApi.Proxy.Tests.Utils
             _threadUtilMock = new Mock<IThreadUtil>();
             _threadUtilMock.Setup(c => c.DelayAsync(It.IsAny<int>())).Returns(Task.CompletedTask);
 
-            _httpHandlerMock = new Mock<IHttpHandler>();
-            _apiClient = new ApiClient(_proxySettingsProviderMock.Object, _httpHandlerMock.Object, _threadUtilMock.Object, _proxySettingsProviderMock.Object);
+            _httpClientFactory = new Mock<IHttpClientFactory>();
+            _apiClient = new ApiClient(_proxySettingsProviderMock.Object, _httpClientFactory.Object, _threadUtilMock.Object, _proxySettingsProviderMock.Object);
         }
 
         public static IEnumerable<TestCaseData> GetAsyncTestSource
@@ -150,21 +152,21 @@ namespace TvMazeApi.Proxy.Tests.Utils
                 Assert.ThrowsAsync<HttpRequestException>(() => _apiClient.GetAsync<TestData>(QueryParams, testInfo.AllowedHttpStatuses));
             }
 
-            _httpHandlerMock.Verify(c => c.GetAsync(It.IsAny<Uri>(), It.IsAny<HttpCompletionOption>()), Times.Exactly(testInfo.ExpectedAttemptNumber));
+            _httpClientFactory.Verify(c => c.CreateClient(It.IsAny<string>()), Times.Exactly(testInfo.ExpectedAttemptNumber));
         }
 
         private void ConfigureGetAsyncSetup(GetAsyncTestInfo testInfo)
         {
-            var setup = _httpHandlerMock.SetupSequence(c => c.GetAsync(It.IsAny<Uri>(), It.IsAny<HttpCompletionOption>()));
+            var setup = _httpClientFactory.SetupSequence(c => c.CreateClient(It.IsAny<string>()));
             for (int i = 0; i < testInfo.AttemptNumber; i++)
             {
                 if (i == testInfo.AttemptNumber - 1 && testInfo.ShouldTheLastAttemptBeSuccessfull) //last scope attempt
                 {
-                    setup.ReturnsAsync(GetHttpResponse(testInfo.ResponseType));
+                    setup.Returns(GetHttpClient(testInfo.ResponseType));
                 }
                 else
                 {
-                    setup.ReturnsAsync(GetHttpResponse(ResponseType.TooManyRequests));
+                    setup.Returns(GetHttpClient(ResponseType.TooManyRequests));
                 }
             }
         }
@@ -181,6 +183,11 @@ namespace TvMazeApi.Proxy.Tests.Utils
                     return _defaultHttpResponse;
             }
             throw new NotSupportedException(nameof(responseType));
+        }
+
+        private HttpClient GetHttpClient(ResponseType responseType)
+        {
+            return new HttpClient(new FakeHttpMessageHandler(GetHttpResponse(responseType)));
         }
     }
 }
